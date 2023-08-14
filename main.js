@@ -1,44 +1,7 @@
-
-// const Madera= function (proyecto, nombreMadera, cantidad, largo, ancho, grosor){
-// const pulgada = 2.54;
-// this.proyecto = proyecto;
-// const pie = 30;
-// this.nombreMadera = nombreMadera;
-// this.cantidad = cantidad;
-// this.largo = largo;
-// this.ancho = ancho;
-// this.grosor = grosor;
-// this.pies = pies;
-// }
-
-// let maderas = [];
-
-// function calcularMadera () {
-//     let proyecto = document.getElementById("Proyecto").value;
-//     let nombreMadera = document.getElementById("Madera").innerText;
-//     let cantidad = document.getElementById("Cantidad").innerText;
-//     let largo = document.getElementById("Largo").innerText;
-//     let ancho = document.getElementById("Ancho").innerText;
-//     let grosor = document.getElementById("Grosor").innerText;
-//     let pies = document.getElementById("Pies");
-//     let totalPies = parseFloat((cantidad * (largo/30) * (ancho/2.54) * (grosor/30)).toFixed(2)); 
-
-//     pies.innerText = "totalPies";
-    
-
-//     let madera = new Madera (proyecto, nombreMadera, cantidad, largo, ancho, grosor, pies)
-
-//     let boton = document.getElementById ("calcularOtra");
-
-//     boton.addEventListener ("click", ()=> {
-//         console.log("gil");
-        
-//     });
-// }
-
-const Calculo = function (proyecto, nombreMadera, cantidad, largo, ancho, grosor, pies) {
+const Calculo = function (proyecto, nombreMadera, pieza, cantidad, largo, ancho, grosor, pies) {
     this.proyecto = proyecto;
     this.nombreMadera = nombreMadera;
+    this.pieza = pieza;
     this.cantidad = cantidad;
     this.largo = largo;
     this.ancho = ancho;
@@ -48,10 +11,13 @@ const Calculo = function (proyecto, nombreMadera, cantidad, largo, ancho, grosor
 
 let calculos = [];
 
-boton = document.getElementById ("calcularOtra").addEventListener("click", ()=> {
+let calculo;
+
+btnCalcular = document.getElementById ("btnCalcular").addEventListener("click", ()=> {
 event.preventDefault();
-let proyecto = document.getElementById ("Proyecto").value;
-let nombreMadera = document.getElementById ("Madera").value;
+let proyecto = document.getElementById ("Proyecto").value.toUpperCase().trim();
+let nombreMadera = document.getElementById ("Madera").value.toUpperCase().trim();
+let pieza = document.getElementById ("Pieza").value.toUpperCase().trim();
 let cantidad = parseInt(document.getElementById("Cantidad").value);
 let largo = parseInt(document.getElementById ("Largo").value);
 let ancho = parseInt(document.getElementById ("Ancho").value);
@@ -59,26 +25,50 @@ let grosor = parseInt(document.getElementById ("Grosor").value);
 let pies = parseInt((cantidad * (largo/30) * (ancho/2.54) * (grosor/30)).toFixed(2));
 let resultado = document.getElementById("Pies").value = pies;
 
-let calculo = new Calculo (proyecto, nombreMadera, cantidad, largo, ancho, grosor, pies);
+calculo = new Calculo (proyecto, nombreMadera, pieza, cantidad, largo, ancho, grosor, pies);
 
-calculos.push(calculo);
-console.table (calculos);
-agregarFila()
+if(proyecto!==null && nombreMadera!==null && pieza!==null && proyecto!=="" && nombreMadera!=="" && pieza!=="" && !isNaN(cantidad) && !isNaN(largo) && !isNaN(ancho) && !isNaN(grosor)){
+    calculos.push(calculo);
+    console.table (calculos);
+    agregarFila()
+} else {alert("Por favor, completá todos los campos e ingresá valores válidos.")}
 
 })
 
 function agregarFila() {
-    let contenidoFila = '<td>' + calculos.proyecto + '</td>' + '<td>' + calculos.nombreMadera + '</td>' + '<td>' + calculos.pies + '</td>';
-    let crearFila = document.createElement("TR");
+    let contenidoFila = '<td>' + calculo.proyecto + '</td>' + '<td>' + calculo.nombreMadera + '</td>' + '<td>' + calculo.pieza + '</td>'+ '<td>' + calculo.pies + '</td>';
+    let crearFila = document.createElement("tr");
     crearFila.innerHTML = contenidoFila;
     let cuerpoTabla = document.getElementById ("cuerpoTabla");
-    document.cuerpoTabla.appendChild(crearFila)
+    cuerpoTabla.appendChild(crearFila);
 }
 
+function guardarCalculo() {
+    let calculoJSON = JSON.stringify(calculos);
+    localStorage.setItem("dataCalculo", calculoJSON);
+}
 
+let btnGuardar = document.getElementById("btnGuardar").addEventListener("click", ()=> {
+    guardarCalculo()
+});
 
+let btnBuscar = document.getElementById ("btnBuscar").addEventListener("click", ()=> {
+    let maderaBuscada = document.getElementById("maderaBuscada").value.toUpperCase();
+    let sumaPies = 0;
 
+    for (let i = 0; i < calculos.length ; i++ ) {
+        if(calculos[i].nombreMadera === maderaBuscada) {
+            sumaPies += calculos[i].pies;
+            resultadoBusqueda(maderaBuscada, sumaPies);
+        } else {errorBusqueda(maderaBuscada);}        
+    }});
 
+function resultadoBusqueda(maderaBuscada,sumaPies) {
+    let resultadoBusqueda = document.getElementById("resultadoBusqueda");
+    resultadoBusqueda.innerHTML = `En total necesitás ${sumaPies} pies de ${maderaBuscada}.`;
+};
 
-
-
+function errorBusqueda (maderaBuscada) {
+    let resultadoBusqueda = document.getElementById("resultadoBusqueda");
+    resultadoBusqueda.innerHTML = `No se ha encontrado la madera ${maderaBuscada}`;
+};

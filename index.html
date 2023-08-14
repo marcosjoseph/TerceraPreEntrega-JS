@@ -35,7 +35,9 @@
 
         </header>
 
-        <main id="calculadora">
+        <main id="main">
+
+            <section id="calculadora">
 
             <h2>¡Bienvenidos a la calculadora de Pies de Madera!</h2>
 
@@ -52,6 +54,11 @@
                     <li>
                         <label for="Madera">Madera</label>
                         <input id="Madera" type="text" name="Madera" placeholder="Nombre de Madera" required>
+                    </li>
+
+                    <li>
+                        <label for="Pieza">Pieza</label>
+                        <input id="Pieza" type="text" name="Pieza" placeholder="Nombre Pieza" required>
                     </li>
 
                     <li>
@@ -80,30 +87,39 @@
                     </li>
                 </ul>
 
-                <button id="calcularOtra" type="submit">Calcular</button>
+                <button id="btnCalcular" type="submit">Calcular</button>
                     
             </form>
+            </section>
 
-                <section id="resumen" class="container">
+                <section id="resumen">
+                    <div id="tablaResumen">
 
-                    <h2>Resumen Calculado:</h2>
+                        <h2>Resumen Calculado:</h2>
 
-                    <table class="table table-hover" id="tablaResumen">
-                        <thead>
-                        <tr>
-                            <th scope="col">Proyecto</th>
-                            <th scope="col">Madera</th>
-                            <th scope="col">Pies</th>
-                        </tr>
-                        </thead>
-                        <tbody id="cuerpoTabla">
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        </tbody>
-                    </table>
+                        <table class="table table-hover" id="tablaResumen">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Proyecto</th>
+                                    <th scope="col">Madera</th>
+                                    <th scope="col">Pieza</th>
+                                    <th scope="col">Pies</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cuerpoTabla">
+                            </tbody>
+                        </table>
+
+                        <button id="btnGuardar">Guardar</button>
+                    </div>
+
+                    <div id="busquedaResumen">
+                        <h2>Buscar Madera:</h2>
+                        <input type="text" id="maderaBuscada" placeholder="Escribir nombre Madera">
+                        <p id="resultadoBusqueda"></p>
+                        <button id="btnBuscar">Buscar</button>
+                    </div>
+                    
                 </section>
 
         </main>
