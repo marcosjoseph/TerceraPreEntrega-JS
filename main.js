@@ -56,12 +56,20 @@ let btnBuscar = document.getElementById ("btnBuscar").addEventListener("click", 
     let maderaBuscada = document.getElementById("maderaBuscada").value.toUpperCase();
     let sumaPies = 0;
 
-    for (let i = 0; i < calculos.length ; i++ ) {
-        if(calculos[i].nombreMadera === maderaBuscada) {
-            sumaPies += calculos[i].pies;
-            resultadoBusqueda(maderaBuscada, sumaPies);
-        } else {errorBusqueda(maderaBuscada);}        
-    }});
+    let maderaEncontrada = calculos.find(i => i.nombreMadera == maderaBuscada);
+
+    if(maderaEncontrada){
+        sumaPies += maderaEncontrada.pies;
+        resultadoBusqueda(maderaBuscada,sumaPies);
+    } else {errorBusqueda(maderaBuscada);}
+});
+
+    // for (let i = 0; i < calculos.length ; i++ ) {
+    //     if(calculos[i].nombreMadera === maderaBuscada) {
+    //         sumaPies += calculos[i].pies;
+    //         resultadoBusqueda(maderaBuscada, sumaPies);
+    //     } else {errorBusqueda(maderaBuscada);}        
+    // }});
 
 function resultadoBusqueda(maderaBuscada,sumaPies) {
     let resultadoBusqueda = document.getElementById("resultadoBusqueda");
@@ -71,4 +79,4 @@ function resultadoBusqueda(maderaBuscada,sumaPies) {
 function errorBusqueda (maderaBuscada) {
     let resultadoBusqueda = document.getElementById("resultadoBusqueda");
     resultadoBusqueda.innerHTML = `No se ha encontrado la madera ${maderaBuscada}`;
-};
+}
