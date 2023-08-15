@@ -56,21 +56,11 @@ let btnBuscar = document.getElementById ("btnBuscar").addEventListener("click", 
     let maderaBuscada = document.getElementById("maderaBuscada").value.toUpperCase();
     let sumaPies = 0;
 
-    let maderaEncontrada = calculos.find(i => i.nombreMadera == maderaBuscada);
-
-    if(maderaEncontrada){
-        sumaPies += maderaEncontrada.pies;
-        resultadoBusqueda(maderaBuscada,sumaPies);
-    } else {errorBusqueda(maderaBuscada);}
-});
-
-    // for (let i = 0; i < calculos.length ; i++ ) {
-    //     if(calculos[i].nombreMadera === maderaBuscada) {
-    //         sumaPies += calculos[i].pies;
-    //         resultadoBusqueda(maderaBuscada, sumaPies);
-    //     } else {errorBusqueda(maderaBuscada);}        
-    // }});
-
+    let maderaEncontrada = calculos.filter((i) => i.nombreMadera == maderaBuscada);
+    maderaEncontrada.forEach((madera)=>{
+        sumaPies += madera.pies;
+        resultadoBusqueda(maderaBuscada,sumaPies)})})
+    
 function resultadoBusqueda(maderaBuscada,sumaPies) {
     let resultadoBusqueda = document.getElementById("resultadoBusqueda");
     resultadoBusqueda.innerHTML = `En total necesitás ${sumaPies} pies de ${maderaBuscada}.`;
